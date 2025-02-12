@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Will You Be My Valentine?</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #ffe6f1;
+      font-family: 'Poppins', sans-serif;
+      overflow: hidden;
+      min-height: 100vh; /* Ensure full viewport height */
+      position: relative;
+    }
+    .section {
+      position: absolute;
+      width: 100%;
+      height: 100vh; /* Full viewport height */
+      display: flex; /* Flex container */
+      flex-direction: column;
+      justify-content: center; /* Vertical centering */
+      align-items: center; /* Horizontal centering */
+      transition: opacity 0.8s ease;
+    }
+    .hidden {
+      opacity: 0;
+      display: none;
+    }
+    .visible {
+      opacity: 1;
+      display: flex; /* Changed from block to maintain flex layout */
+    }
+    /* Rest of your existing styles remain the same */
+    #intro h1 {
+      font-family: 'Lobster', cursive;
+      font-size: 3em;
+      color: #ff5ea3;
+      margin-bottom: 10px;
+      animation: float 2s ease-in-out infinite alternate;
+    }
+    #intro p {
+      font-size: 1.5em;
+      color: #ff5ea3;
+      margin-bottom: 20px;
+    }
+    #forLiam {
+      background-color: #ffb6c1;
+      border: none;
+      border-radius: 30px;
+      color: white;
+      font-size: 1.5em;
+      padding: 15px 30px;
+      cursor: pointer;
+      animation: floatButton 3s ease-in-out infinite alternate;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+    #momentOftruth p {
+      font-family: 'Lobster', cursive;
+      font-size: 2em;
+      color: #ff5ea3;
+      margin-bottom: 30px;
+    }
+    .answerButton {
+      background-color: #ff1493;
+      border: none;
+      border-radius: 10px;
+      color: white;
+      font-size: 1.2em;
+      padding: 15px 25px;
+      margin: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.3s;
+    }
+    .answerButton:hover {
+      background-color: #ff69b4;
+    }
+    #littleTrick {
+      color: #ff1493;
+    }
+    #littleTrick p {
+      font-family: 'Lobster', cursive;
+      font-size: 1.8em;
+      margin-bottom: 20px;
+    }
+    .floating {
+      position: absolute;
+      animation: floatUp 4s linear infinite;
+      pointer-events: none;
+    }
+    .heart {
+      font-size: 2em;
+    }
+    .bubble {
+      width: 20px;
+      height: 20px;
+      background: #ff5ea3;
+      border-radius: 50%;
+      opacity: 0.8;
+    }
+    .cat {
+      font-size: 2em;
+    }
+    @keyframes float {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-20px); }
+    }
+    @keyframes floatButton {
+      0% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-10px) scale(1.05); }
+      100% { transform: translateY(0) scale(1); }
+    }
+    @keyframes floatUp {
+      0% { transform: translateY(0); opacity: 1; }
+      100% { transform: translateY(-100px); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Your existing HTML structure remains the same -->
+  <div id="intro" class="section visible">
+    <h1>Hey Liam!</h1>
+    <p>Look at this super cool thing I made for you!</p>
+    <button id="forLiam">Click me!</button>
+  </div>
+  
+  <div id="momentOftruth" class="section hidden">
+    <p>Wanna be my Valentine?</p>
+    <button id="yessss" class="answerButton">Yes!</button>
+    <button id="youCantsayno" class="answerButton">Nope!</button>
+  </div>
+  
+  <div id="littleTrick" class="section hidden">
+    <p>Chocolate and roses are on you now, hehe!</p>
+  </div>
+
+  <script>
+    // Your existing JavaScript remains unchanged
+    function showSection(sectionId) {
+      const sections = ['intro', 'momentOftruth', 'littleTrick'];
+      sections.forEach(id => {
+        const el = document.getElementById(id);
+        if(id === sectionId) {
+          el.classList.remove('hidden');
+          el.classList.add('visible');
+        } else {
+          el.classList.remove('visible');
+          el.classList.add('hidden');
+        }
+      });
+    }
+
+    const forLiam = document.getElementById('forLiam');
+    forLiam.addEventListener('click', () => {
+      showSection('momentOftruth');
+    });
+
+    const youCantsayno = document.getElementById('youCantsayno');
+    youCantsayno.addEventListener('mouseover', () => {
+      const maxX = window.innerWidth - youCantsayno.offsetWidth;
+      const maxY = window.innerHeight - youCantsayno.offsetHeight;
+      const randomX = Math.floor(Math.random() * maxX);
+      const randomY = Math.floor(Math.random() * maxY);
+      youCantsayno.style.position = 'absolute';
+      youCantsayno.style.left = randomX + 'px';
+      youCantsayno.style.top = randomY + 'px';
+    });
+
+    const yessss = document.getElementById('yessss');
+    yessss.addEventListener('click', () => {
+      showSection('littleTrick');
+      yeeeeeey();
+    });
+
+    function createFloatingElement(className) {
+      const el = document.createElement('div');
+      el.classList.add('floating', className);
+      el.style.left = Math.random() * window.innerWidth + 'px';
+      el.style.top = window.innerHeight + 'px';
+      if(className === 'heart') {
+        el.textContent = '❤️';
+      } else if(className === 'cat') {
+        el.textContent = '🐱';
+      }
+      document.body.appendChild(el);
+      setTimeout(() => { el.remove(); }, 4000);
+    }
+
+    function yeeeeeey() {
+      const animationCount = 20;
+      for(let i = 0; i < animationCount; i++){
+        setTimeout(() => createFloatingElement('heart'), Math.random() * 2000);
+        setTimeout(() => createFloatingElement('bubble'), Math.random() * 2000);
+        setTimeout(() => createFloatingElement('cat'), Math.random() * 2000);
+      }
+    }
+  </script>
+</body>
+</html>
+
